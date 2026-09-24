@@ -58,13 +58,13 @@
 /* 
    Text Boxes / Inputs
    - Pure black background
-   - Secondary accent text (#D0D0D0)
+   - Secondary accent text (#FFFFFF)
 */
 .booking-form input,
 .booking-form textarea {
   width: 100%;
   background-color: #000000;
-  color: var(--color-secondary-accent);
+  color: #FFFFFF;
   border: 1px solid rgba(208, 208, 208, 0.25);
   border-radius: 6px;
   padding: 0.85rem 1rem;
@@ -81,7 +81,7 @@
 
 .booking-form input::placeholder,
 .booking-form textarea::placeholder {
-  color: #666666;
+  color: var(--color-secondary-accent);
 }
 
 /* Active Focus State for Text Boxes */
@@ -101,7 +101,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-secondary-accent);
+  color: #FFFFFF;
 }
 
 /* Mobile Responsiveness */
