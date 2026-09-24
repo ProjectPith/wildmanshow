@@ -20,6 +20,12 @@ body {
   overflow-x: hidden;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* Nav Container Insert */
 #nav-insert {
   width: 100%;
@@ -177,7 +183,10 @@ header {
 nav {
   grid-column: 2;
   justify-self: center;
+  display: flex;
+  gap: 1.5rem;
 }
+
 
 .nav-link {
   color: var(--color-secondary-accent);
@@ -189,13 +198,6 @@ nav {
 
 .nav-link:hover {
   color: var(--color-accent);
-}
-
-nav {
-  grid-column: 2;
-  justify-self: center;
-  display: flex;
-  gap: 1.5rem; /* Adds spacing between HOME and BOOKING */
 }
 
 /* Mobile Configurations */
