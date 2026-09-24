@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Event</title>
+  <link rel="stylesheet" href="/global.css">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <a href="#" class="logo">Wildman</a>
+      <nav>
+        <a href="index.html" class="nav-link">HOME</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="booking-container">
+      
+      <!-- Left Side: Info Form Box -->
+      <section class="booking-box info-box">
+        <h2>Event Details</h2>
+        <form class="booking-form">
+          
+          <div class="form-group">
+            <label for="client-name">Your Name</label>
+            <input type="text" id="client-name" placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label for="event-type">Event Type</label>
+            <input type="text" id="event-type" placeholder="Wedding, Private Party, Corporate...">
+          </div>
+
+          <div class="form-group">
+            <label for="music-preference">Music Style / Genre</label>
+            <input type="text" id="music-preference" placeholder="Rock, Country, Top 40...">
+          </div>
+
+          <div class="form-group">
+            <label for="setup-type">Setup Requirements</label>
+            <textarea id="setup-type" rows="4" placeholder="Full PA system, acoustic stage, lighting requirements..."></textarea>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Right Side: Calendar Container Box -->
+      <section class="booking-box calendar-box">
+        <h2>Select Date & Time</h2>
+        <div class="cal-embed-placeholder">
+          <!-- Cal.com embed iframe goes here -->
+          <p>Cal.com Embed Container</p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>
