@@ -1,0 +1,190 @@
+/* Color Palette Variables */
+:root {
+  --color-primary: #2C2C2C; 
+  --color-secondary: #452727;
+  --color-accent: #B32222;
+  --color-secondary-accent: #D0D0D0;
+  
+  --bg-main: #1A1A1A;
+  --text-main: #FFFFFF;
+  --text-muted: #D0D0D0;
+  --border-radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* Header & Navigation */
+header {
+  background-color: var(--color-primary);
+  padding: 1.25rem 2rem;
+  border-bottom: 2px solid var(--color-accent);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: var(--color-accent);
+}
+
+/* Main Layout Container */
+main {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+/* Banner Widget */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  background-color: var(--color-primary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(69, 39, 39, 0.3) 0%, rgba(44, 44, 44, 0.9) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 2.5rem;
+}
+
+.banner-overlay h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.banner-overlay p {
+  color: var(--color-secondary-accent);
+  font-size: 1.1rem;
+}
+
+/* Photo Cards Grid Layout */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+/* Widget Card Styling */
+.widget-card {
+  background-color: var(--color-primary);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(208, 208, 208, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.widget-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(179, 34, 34, 0.25);
+  border-color: var(--color-accent);
+}
+
+.card-image-wrapper {
+  width: 100%;
+  height: 200px;
+  background-color: var(--color-secondary);
+  overflow: hidden;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-content h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.card-content p {
+  color: var(--color-secondary-accent);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+}
+
+.card-btn {
+  display: inline-block;
+  background-color: var(--color-secondary);
+  color: var(--text-main);
+  text-align: center;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid var(--color-accent);
+  transition: background-color 0.2s ease;
+}
+
+.card-btn:hover {
+  background-color: var(--color-accent);
+}
+
+/* Responsive Fallback */
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-banner {
+    height: 220px;
+  }
+
+  .banner-overlay h1 {
+    font-size: 1.75rem;
+  }
+}
