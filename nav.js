@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <a href="index.html" class="logo">THE WILDMAN SHOW</a>
         <nav>
           <a href="index.html" class="nav-link">HOME</a>
+          <a href="functions/booking/booking.html" class="nav-link">BOOKING</a>
         </nav>
       </div>
     </header>
