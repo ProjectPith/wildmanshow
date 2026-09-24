@@ -1,0 +1,97 @@
+/* ==========================================
+   Booking Page Styles (booking.css)
+   ========================================== */
+
+/* Layout Grid */
+.booking-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Base Widget Container Styles */
+.booking-box {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.booking-box h2 {
+  color: var(--text-main);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  border-bottom: 1px solid rgba(208, 208, 208, 0.2);
+  padding-bottom: 0.5rem;
+}
+
+/* Form Layout & Field Options */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: var(--color-secondary-accent);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Black Inputs with Secondary Accent Text */
+.form-group input,
+.form-group textarea {
+  background-color: #000000;
+  color: var(--color-secondary-accent);
+  border: 1px solid rgba(208, 208, 208, 0.2);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #666666;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 8px rgba(179, 34, 34, 0.4);
+}
+
+/* Calendar Container Box */
+.calendar-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.cal-embed-placeholder {
+  flex-grow: 1;
+  min-height: 400px;
+  background-color: #000000;
+  border: 1px dashed rgba(208, 208, 208, 0.3);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-secondary-accent);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 868px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+  }
+}
