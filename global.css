@@ -1,6 +1,6 @@
 /* Color Palette Variables */
 :root {
-  --color-primary: #2C2C2C; 
+  --color-primary: #2C2C2C;
   --color-secondary: #452727;
   --color-accent: #B32222;
   --color-secondary-accent: #D0D0D0;
@@ -22,51 +22,30 @@ body {
   background-color: var(--bg-main);
   color: var(--text-main);
   line-height: 1.6;
+  width: 100%;
+  overflow-x: hidden;
 }
 
-/* Header & Navigation */
-header {
-  background-color: var(--color-primary);
-  padding: 1.25rem 2rem;
-  border-bottom: 2px solid var(--color-accent);
+/* Nav Container Insert */
+#nav-insert {
+  width: 100%;
+  /* JavaScript will dynamically render/inject the navbar here */
 }
 
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-main);
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.logo span {
-  color: var(--color-accent);
-}
-
-/* Main Layout Container */
+/* Full-width Main Layout */
 main {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+  width: 100%;
+  padding: 2rem 2rem;
 }
 
-/* Banner Widget */
+/* Full-width Banner Widget */
 .hero-banner {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 360px;
   border-radius: var(--border-radius);
   overflow: hidden;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   background-color: var(--color-primary);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -99,11 +78,12 @@ main {
   font-size: 1.1rem;
 }
 
-/* Photo Cards Grid Layout */
+/* Photo Cards Grid Layout - Spans Full Width */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+  width: 100%;
 }
 
 /* Widget Card Styling */
@@ -126,7 +106,7 @@ main {
 
 .card-image-wrapper {
   width: 100%;
-  height: 200px;
+  height: 240px;
   background-color: var(--color-secondary);
   overflow: hidden;
 }
@@ -175,9 +155,13 @@ main {
 }
 
 /* Responsive Fallback */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .card-grid {
     grid-template-columns: 1fr;
+  }
+
+  main {
+    padding: 1rem;
   }
   
   .hero-banner {
