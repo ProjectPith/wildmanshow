@@ -154,6 +154,43 @@ main {
   background-color: var(--color-accent);
 }
 
+/* Header & Navigation */
+header {
+  background-color: var(--color-secondary);
+  padding: 1rem 2rem;
+  border-bottom: 3px solid var(--color-accent);
+  width: 100%;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav-link {
+  color: var(--color-secondary-accent);
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--color-accent);
+}
+
+
 /* Mobile Configurations */
 @media (max-width: 768px) {
   main {
