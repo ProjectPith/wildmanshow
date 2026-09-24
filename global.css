@@ -3,18 +3,12 @@
   --color-primary: #2C2C2C;
   --color-secondary: #121111;
   --color-accent: #B32222;
-  --color-secondary-accent: #D0D0D0; 
-  
-  --bg-main: #1A1A1A;
-  --text-main: #FFFFFF;
-  --text-muted: #D0D0D0;
-  --border-radius: 12px;
-} 
+  --color-secondary-accent: #D0D0D0;
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  --bg-main: var(--color-primary);
+  --text-main: #FFFFFF;
+  --text-muted: var(--color-secondary-accent);
+  --border-radius: 12px;
 }
 
 body {
