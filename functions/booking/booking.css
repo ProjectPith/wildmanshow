@@ -12,12 +12,10 @@
 }
 
 /* 
-   Main Outer Boxes 
-   - Left (Info Box) & Right (Calendar Box)
+   Main Outer Boxes
    - Secondary color background with accent color border
 */
-.info-box,
-.calendar-box {
+.booking-box {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-accent);
   border-radius: var(--border-radius);
@@ -27,9 +25,8 @@
   flex-direction: column;
 }
 
-/* Box Section Titles */
-.info-box h2,
-.calendar-box h2 {
+/* Box Titles */
+.booking-box h2 {
   color: var(--text-main);
   font-size: 1.5rem;
   font-weight: 700;
@@ -38,7 +35,7 @@
   border-bottom: 1px solid rgba(208, 208, 208, 0.2);
 }
 
-/* Form Layout inside the Left Info Box */
+/* Form Layout inside Left Box */
 .booking-form {
   display: flex;
   flex-direction: column;
@@ -59,9 +56,9 @@
 }
 
 /* 
-   Text Boxes / Inputs 
+   Text Boxes / Inputs
    - Pure black background
-   - Text color in secondary accent (#D0D0D0)
+   - Secondary accent text (#D0D0D0)
 */
 .booking-form input,
 .booking-form textarea {
@@ -94,7 +91,7 @@
   box-shadow: 0 0 8px rgba(179, 34, 34, 0.4);
 }
 
-/* Right Calendar Box Placeholder Area */
+/* Right Calendar Box Container */
 .cal-embed-placeholder {
   flex-grow: 1;
   min-height: 450px;
@@ -107,7 +104,7 @@
   color: var(--color-secondary-accent);
 }
 
-/* Mobile Responsive Collapse */
+/* Mobile Responsiveness */
 @media (max-width: 868px) {
   .booking-container {
     grid-template-columns: 1fr;
