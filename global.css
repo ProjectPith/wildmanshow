@@ -325,11 +325,11 @@ header {
     gap: 0;
     height: 100vh;
     justify-content: flex-start;
-    left: 0;
+    right: 0;
     padding: 5rem 2rem 2rem;
     position: fixed;
     top: 0;
-    transform: translateX(-100%);
+    transform: translateX(100%);
     transition: transform 0.25s ease;
     visibility: hidden;
     width: 100vw;
