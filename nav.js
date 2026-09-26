@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="nav-actions">
           <button class="nav-action" type="button" aria-label="Account">
             <span class="action-label">ACCOUNT</span>
-            <span class="action-short" aria-hidden="true">A</span>
+            <span class="action-short" aria-hidden="true">&#128100;</span>
           </button>
           <button class="nav-action" type="button" aria-label="Cart">
             <span class="action-label">CART</span>
-            <span class="action-short" aria-hidden="true">C</span>
+            <span class="action-short" aria-hidden="true">&#128722;</span>
           </button>
         </div>
       </div>
@@ -42,12 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     menuToggle.setAttribute("aria-expanded", String(!isOpen));
     siteNav.classList.toggle("is-open", !isOpen);
+    document.body.classList.toggle("nav-open", !isOpen);
   });
 
   siteNav.querySelectorAll(".nav-link").forEach((link) => {
     link.addEventListener("click", () => {
       menuToggle.setAttribute("aria-expanded", "false");
       siteNav.classList.remove("is-open");
+      document.body.classList.remove("nav-open");
     });
   });
 });
