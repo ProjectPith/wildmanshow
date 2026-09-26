@@ -7,14 +7,47 @@ document.addEventListener("DOMContentLoaded", () => {
     <header>
       <div class="nav-container">
         <a href="index.html" class="logo">THE WILDMAN SHOW</a>
-        <nav>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span class="sr-only">Toggle navigation</span>
+        </button>
+        <nav id="site-nav" class="site-nav">
           <a href="/index.html" class="nav-link">HOME</a>
           <a href="/functions/booking/booking.html" class="nav-link">BOOKING</a>
           <a href="/functions/music/music.html" class="nav-link">MUSIC</a>
         </nav>
+        <div class="nav-actions">
+          <button class="nav-action" type="button" aria-label="Account">
+            <span class="action-label">ACCOUNT</span>
+            <span class="action-short" aria-hidden="true">A</span>
+          </button>
+          <button class="nav-action" type="button" aria-label="Cart">
+            <span class="action-label">CART</span>
+            <span class="action-short" aria-hidden="true">C</span>
+          </button>
+        </div>
       </div>
     </header>
   `;
 
   navContainer.innerHTML = navbarHTML;
+
+  const menuToggle = navContainer.querySelector(".menu-toggle");
+  const siteNav = navContainer.querySelector(".site-nav");
+
+  menuToggle.addEventListener("click", () => {
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+
+    menuToggle.setAttribute("aria-expanded", String(!isOpen));
+    siteNav.classList.toggle("is-open", !isOpen);
+  });
+
+  siteNav.querySelectorAll(".nav-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      menuToggle.setAttribute("aria-expanded", "false");
+      siteNav.classList.remove("is-open");
+    });
+  });
 });
