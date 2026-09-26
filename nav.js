@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <a href="/index.html" class="nav-link">HOME</a>
           <a href="/functions/booking/booking.html" class="nav-link">BOOKING</a>
           <a href="/functions/music/music.html" class="nav-link">MUSIC</a>
+          <a href="/functions/gallery/gallery.html" class="nav-link">GALLERY</a>
         </nav>
         <div class="nav-actions">
           <button class="nav-action" type="button" aria-label="Account">
