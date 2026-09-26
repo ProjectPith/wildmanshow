@@ -1,3 +1,8 @@
+const globalStylesheet = document.createElement("link");
+globalStylesheet.rel = "stylesheet";
+globalStylesheet.href = new URL("global.css", document.currentScript.src).href;
+document.head.appendChild(globalStylesheet);
+
 document.addEventListener("DOMContentLoaded", () => {
   const navContainer = document.getElementById("nav-insert");
 
