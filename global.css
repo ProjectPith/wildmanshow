@@ -32,6 +32,7 @@ body {
 
 /* Nav Container Insert */
 #nav-insert {
+  height: 67px;
   width: 100%;
 }
 
@@ -163,7 +164,8 @@ header {
   background-color: var(--color-secondary);
   padding: 1rem 2rem;
   border-bottom: 3px solid var(--color-accent);
-  position: sticky;
+  left: 0;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 100;
@@ -256,6 +258,10 @@ header {
 
 /* Mobile Configurations */
 @media (max-width: 768px) {
+  #nav-insert {
+    height: 59px;
+  }
+
   header {
     padding: 0.75rem 1rem;
   }
