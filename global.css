@@ -319,24 +319,32 @@ header {
   .site-nav {
     background-color: var(--color-secondary);
     border-top: 1px solid rgba(208, 208, 208, 0.15);
-    display: none;
+    align-items: stretch;
+    display: flex;
     flex-direction: column;
     gap: 0;
-    inset: 0;
-    justify-content: center;
+    height: 100vh;
+    justify-content: flex-start;
+    left: 0;
     padding: 5rem 2rem 2rem;
     position: fixed;
+    top: 0;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    visibility: hidden;
+    width: 100vw;
     z-index: 20;
   }
 
   .site-nav.is-open {
-    display: flex;
+    transform: translateX(0);
+    visibility: visible;
   }
 
   .site-nav .nav-link {
     font-size: 1.2rem;
     padding: 1rem 0;
-    text-align: center;
+    text-align: left;
   }
 
   body.nav-open {
@@ -380,19 +388,4 @@ header {
   }
 
   .card-image-wrapper {
-    height: 130px;
-  }
-
-  .card-content {
-    padding: 0.85rem;
-  }
-
-  .card-content h3 {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-
-  .card-content p {
-    font-size: 0.8rem;
-    margin-bottom: 0.75rem;
- 
+    height: 130
