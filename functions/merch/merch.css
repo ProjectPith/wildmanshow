@@ -85,8 +85,7 @@
 }
 
 .cart-action {
-  display: flex;
-  justify-content: center;
+  width: 100%;
   margin-top: 2rem;
 }
 
@@ -95,10 +94,13 @@
   border: 2px solid var(--color-accent);
   border-radius: 6px;
   color: var(--text-main);
+  display: block;
   font-weight: 700;
   padding: 0.8rem 1.5rem;
+  text-align: center;
   text-decoration: none;
   transition: background-color 0.2s ease, transform 0.2s ease;
+  width: 100%;
 }
 
 .cart-button:hover,
