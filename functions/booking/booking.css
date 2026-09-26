@@ -107,7 +107,25 @@
 /* Mobile Responsiveness */
 @media (max-width: 868px) {
   .booking-container {
+    background-color: var(--color-secondary);
+    border: 2px solid var(--color-accent);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    gap: 0;
     grid-template-columns: 1fr;
+    overflow: hidden;
+  }
+
+  .booking-box {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 1.5rem;
+  }
+
+  .booking-box + .booking-box {
+    border-top: 1px solid rgba(208, 208, 208, 0.2);
   }
 
   .cal-embed-placeholder {
