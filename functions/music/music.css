@@ -6,7 +6,6 @@
   margin-bottom: 2rem;
 }
 
-.eyebrow,
 .track-number,
 .filter-control span {
   color: var(--color-accent);
@@ -52,7 +51,7 @@
 
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
@@ -61,6 +60,9 @@
   border: 2px solid var(--color-accent);
   border-radius: var(--border-radius);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  align-items: center;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -72,35 +74,39 @@
 
 .album-placeholder {
   align-items: center;
-  aspect-ratio: 1;
+  align-self: stretch;
   background: linear-gradient(135deg, var(--color-primary), #000000);
   color: var(--color-accent);
   display: flex;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 4rem;
+  font-size: 2rem;
   justify-content: center;
   letter-spacing: 2px;
 }
 
 .music-card-content {
-  padding: 1.25rem;
+  min-width: 0;
+  padding: 1rem 1.25rem;
 }
 
 .music-card h2 {
   color: var(--text-main);
   font-size: 1.2rem;
-  margin: 0.55rem 0 0.2rem;
+  margin: 0.35rem 0 0;
 }
 
 .artist-name {
   color: var(--color-secondary-accent);
   font-size: 0.95rem;
   margin: 0;
+  padding: 1rem 1.25rem 1rem 0.5rem;
+  text-align: right;
+  white-space: nowrap;
 }
 
 @media (max-width: 868px) {
   .music-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 }
 
@@ -115,19 +121,13 @@
     min-width: 0;
   }
 
-  .music-grid {
-    gap: 0.75rem;
+  .music-card {
+    grid-template-columns: 72px minmax(0, 1fr) auto;
   }
 
   .music-card-content {
-    padding: 0.85rem;
+    padding: 0.85rem 0.75rem;
   }
 
   .music-card h2 {
-    font-size: 0.95rem;
-  }
-
-  .artist-name {
-    font-size: 0.8rem;
-  }
-}
+ 
