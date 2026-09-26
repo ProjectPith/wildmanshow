@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav>
           <a href="/index.html" class="nav-link">HOME</a>
           <a href="/functions/booking/booking.html" class="nav-link">BOOKING</a>
+          <a href="/functions/music/music.html" class="nav-link">MUSIC</a>
         </nav>
       </div>
     </header>
