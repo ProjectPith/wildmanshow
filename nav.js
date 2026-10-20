@@ -19,11 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <span class="sr-only">Toggle navigation</span>
         </button>
         <nav id="site-nav" class="site-nav">
-          <a href="/index.html" class="nav-link">HOME</a>
-          <a href="/functions/booking/booking.html" class="nav-link">BOOKING</a>
-          <a href="/functions/music/music.html" class="nav-link">MUSIC</a>
-          <a href="/functions/gallery/gallery.html" class="nav-link">GALLERY</a>
-          <a href="/functions/merch/merch.html" class="nav-link">MERCH</a>
+          <a href="/index.html" class="nav-link">BOOKING</a>
         </nav>
         <div class="nav-actions">
           <button class="nav-action" type="button" aria-label="Account">
