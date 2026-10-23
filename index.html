@@ -18,14 +18,24 @@
         <h2>Event Details</h2>
         <form class="booking-form">
           <div class="form-group event-type-group">
-            <label for="event-type">Event Type</label>
-            <select id="event-type" name="event-type" required>
+            <label id="event-type-label" for="event-type-trigger">Event Type</label>
+            <select id="event-type" name="event-type" class="event-type-native" required tabindex="-1" aria-hidden="true">
               <option value="" selected disabled>Select an event</option>
               <option value="wedding">Wedding</option>
               <option value="party">Party</option>
               <option value="karaoke">Karaoke</option>
               <option value="photo-booth">Photo Booth</option>
             </select>
+            <button type="button" class="event-type-trigger" id="event-type-trigger" role="combobox" aria-labelledby="event-type-label event-type-value" aria-haspopup="listbox" aria-expanded="false" aria-controls="event-type-menu">
+              <span id="event-type-value">Select an event</span>
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+            <div class="event-type-menu" id="event-type-menu" role="listbox" aria-label="Event Type" hidden>
+              <button type="button" role="option" data-event-type="wedding" aria-selected="false">Wedding</button>
+              <button type="button" role="option" data-event-type="party" aria-selected="false">Party</button>
+              <button type="button" role="option" data-event-type="karaoke" aria-selected="false">Karaoke</button>
+              <button type="button" role="option" data-event-type="photo-booth" aria-selected="false">Photo Booth</button>
+            </div>
             <div class="photo-booth-options" id="photo-booth-options" role="group" aria-label="Photo Booth options" hidden>
               <span>Choose a Photo Booth package</span>
               <button type="button" data-photo-option="digital">Digital — $450</button>
@@ -53,12 +63,13 @@
       </section>
 
       <section class="booking-box calendar-box">
-        <h2>Select Date &amp; Time</h2>
-        <p class="booking-instructions">
-          Select an event and date to see available times. Cal.com will show the booking details after you choose a time.
-        </p>
+        <div class="calendar-box-header">
+          <h2>Select Date &amp; Time</h2>
+          <button type="button" id="back-to-calendar" hidden>Back to calendar</button>
+          <button type="button" id="back-to-times" hidden>Back to available times</button>
+        </div>
         <div class="cal-embed-placeholder" id="calendar-container">
-          <div class="blank-calendar" id="blank-calendar">
+          <div class="calendar-stage" id="calendar-stage">
             <div class="calendar-month">
               <button type="button" id="previous-month" aria-label="Previous month">&lsaquo;</button>
               <h3 id="calendar-month-label" aria-live="polite"></h3>
@@ -78,9 +89,18 @@
               </thead>
               <tbody id="calendar-days"></tbody>
             </table>
-            <p id="calendar-instructions">Select an event to view its calendar.</p>
+            <p class="calendar-status" id="calendar-status" aria-live="polite" hidden></p>
           </div>
-          <iframe id="booking-calendar" title="Event booking calendar" hidden></iframe>
+          <div class="times-stage" id="times-stage" hidden>
+            <div class="times-stage-header">
+              <h3 id="times-date-label"></h3>
+            </div>
+            <div class="time-options" id="time-options" aria-label="Available times"></div>
+            <p class="calendar-status" id="times-status" aria-live="polite" hidden></p>
+          </div>
+          <div class="confirmation-stage" id="confirmation-stage" hidden>
+            <iframe id="booking-calendar" title="Cal.com booking details" tabindex="-1"></iframe>
+          </div>
         </div>
       </section>
 

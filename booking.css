@@ -19,10 +19,11 @@
   background-color: var(--color-secondary);
   border: 2px solid var(--color-accent);
   border-radius: var(--border-radius);
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
+  height: 560px;
 }
 
 /* Box Titles */
@@ -33,6 +34,22 @@
   margin-bottom: 1.5rem;
   padding-bottom: 0.75rem;
   border-bottom: 1px solid rgba(208, 208, 208, 0.2);
+}
+
+.calendar-box-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(208, 208, 208, 0.2);
+}
+
+.calendar-box-header h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .form-group {
@@ -68,9 +85,66 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.booking-form select {
-  appearance: none;
+.event-type-native {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.event-type-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #2C2C2C;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  color: var(--text-main);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.event-type-menu {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: min(100%, 250px);
+  padding: 0.75rem;
+  background: #2C2C2C;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+.event-type-menu[hidden] {
+  display: none;
+}
+
+.event-type-menu button {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--color-secondary);
+  border: 1px solid rgba(208, 208, 208, 0.25);
+  border-radius: 4px;
+  color: var(--text-main);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
 }
 
 .booking-form textarea {
@@ -89,6 +163,7 @@
   position: relative;
 }
 
+.event-type-group.has-event-menu,
 .event-type-group.has-photo-options {
   z-index: 100;
 }
@@ -137,6 +212,11 @@
   text-align: left;
 }
 
+.photo-booth-options button,
+.event-type-menu button {
+  font-size: 0.85rem;
+}
+
 .photo-booth-options button:hover,
 .photo-booth-options button:focus-visible {
   border-color: var(--color-accent);
@@ -165,25 +245,35 @@
   display: none;
 }
 
-.booking-instructions {
-  margin: -0.5rem 0 1.25rem;
-  color: var(--color-secondary-accent);
-}
-
 /* Right Calendar Box Container */
 .cal-embed-placeholder {
-  min-height: 600px;
+  position: relative;
+  flex: 1;
+  min-height: 0;
   background-color: #000000;
   border: 1px dashed rgba(208, 208, 208, 0.3);
   border-radius: 6px;
   color: #FFFFFF;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.blank-calendar {
+.calendar-stage,
+.times-stage,
+.confirmation-stage {
   max-width: 480px;
   margin: 0 auto;
   padding: 1.5rem;
+}
+
+.times-stage {
+  max-width: none;
+}
+
+.calendar-stage[hidden],
+.times-stage[hidden],
+.confirmation-stage[hidden] {
+  display: none;
 }
 
 .calendar-month {
@@ -237,19 +327,6 @@
   border-top: 1px solid rgba(208, 208, 208, 0.12);
 }
 
-.month-grid td.is-today {
-  color: var(--text-main);
-  font-weight: 700;
-  box-shadow: inset 0 -2px var(--color-accent);
-}
-
-.blank-calendar > p {
-  margin: 1.25rem 0 0;
-  color: var(--color-secondary-accent);
-  font-size: 0.9rem;
-  text-align: center;
-}
-
 .calendar-day {
   width: 2.5rem;
   height: 2.5rem;
@@ -277,20 +354,111 @@
   font-weight: 700;
 }
 
+.calendar-day.is-available {
+  background: rgba(179, 34, 34, 0.22);
+  box-shadow: inset 0 0 0 1px var(--color-accent);
+}
+
+.calendar-day.is-available:hover,
+.calendar-day.is-available:focus-visible {
+  background: var(--color-accent);
+}
+
 .calendar-day.is-selected {
   background: var(--color-accent);
+}
+
+.calendar-status {
+  margin: 1rem 0 0;
+  color: var(--color-secondary-accent);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.calendar-status[hidden] {
+  display: none;
+}
+
+.times-stage-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.times-stage-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  text-align: left;
+}
+
+#back-to-calendar,
+#back-to-times {
+  padding: 0.5rem 0.75rem;
+  background: transparent;
+  border: 1px solid rgba(208, 208, 208, 0.3);
+  border-radius: 6px;
+  color: var(--text-main);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
+#back-to-calendar:hover,
+#back-to-times:hover,
+#back-to-calendar:focus-visible,
+#back-to-times:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.time-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.6rem;
+}
+
+.time-option {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: #000000;
+  border: 1px solid rgba(208, 208, 208, 0.3);
+  border-radius: 6px;
+  color: var(--text-main);
+  cursor: pointer;
+  font: inherit;
+  text-align: center;
+}
+
+.time-option:hover,
+.time-option:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.confirmation-stage {
+  max-width: none;
 }
 
 #booking-calendar {
   display: block;
   width: 100%;
+  height: 760px;
   min-height: 760px;
   border: 0;
   background: #000000;
 }
 
-#booking-calendar[hidden] {
-  display: none;
+#booking-calendar.is-availability-source {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  min-height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Mobile Responsiveness */
@@ -299,12 +467,16 @@
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
+}
 
-  .cal-embed-placeholder {
-    min-height: 380px;
+@media (max-width: 520px) {
+  .booking-box {
+    padding: 1rem;
   }
 
-  #booking-calendar {
-    min-height: 720px;
+  .calendar-stage,
+  .times-stage,
+  .confirmation-stage {
+    padding: 1rem;
   }
 }

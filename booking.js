@@ -1,13 +1,24 @@
 const eventTypeSelect = document.getElementById("event-type");
+const eventTypeTrigger = document.getElementById("event-type-trigger");
+const eventTypeMenu = document.getElementById("event-type-menu");
+const eventTypeValue = document.getElementById("event-type-value");
 const photoBoothOptions = document.getElementById("photo-booth-options");
 const eventTypeGroup = eventTypeSelect.closest(".event-type-group");
 const pricingText = document.getElementById("event-pricing-text");
 const changePhotoOptionButton = document.getElementById("change-photo-option");
-const blankCalendar = document.getElementById("blank-calendar");
+const calendarContainer = document.getElementById("calendar-container");
+const calendarStage = document.getElementById("calendar-stage");
+const calendarStatus = document.getElementById("calendar-status");
 const bookingCalendar = document.getElementById("booking-calendar");
+const backToCalendarButton = document.getElementById("back-to-calendar");
+const backToTimesButton = document.getElementById("back-to-times");
 const monthLabel = document.getElementById("calendar-month-label");
 const calendarDays = document.getElementById("calendar-days");
-const calendarInstructions = document.getElementById("calendar-instructions");
+const timesStage = document.getElementById("times-stage");
+const timesDateLabel = document.getElementById("times-date-label");
+const timeOptions = document.getElementById("time-options");
+const timesStatus = document.getElementById("times-status");
+const confirmationStage = document.getElementById("confirmation-stage");
 
 const calendarUrls = {
   wedding: "https://cal.com/wildmanshow-booking/wedding?embed=true",
@@ -27,8 +38,64 @@ const eventPricing = {
 
 let photoBoothFormat = "";
 let displayedMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-let selectedDate = null;
-let selectedEventType = "";
+let selectedDate = "";
+let activeBookingUrl = "";
+let availabilityByDate = new Map();
+let availabilityFetched = false;
+
+function closeEventTypeMenu() {
+  eventTypeMenu.hidden = true;
+  eventTypeTrigger.setAttribute("aria-expanded", "false");
+  eventTypeGroup.classList.remove("has-event-menu");
+}
+
+eventTypeTrigger.addEventListener("click", () => {
+  const isOpening = eventTypeMenu.hidden;
+  eventTypeMenu.hidden = !isOpening;
+  eventTypeTrigger.setAttribute("aria-expanded", String(isOpening));
+  eventTypeGroup.classList.toggle("has-event-menu", isOpening);
+});
+
+eventTypeMenu.addEventListener("click", (event) => {
+  const option = event.target.closest("[data-event-type]");
+  if (!option) return;
+
+  eventTypeSelect.value = option.dataset.eventType;
+  eventTypeValue.textContent = option.textContent;
+  eventTypeMenu.querySelectorAll("[role='option']").forEach((item) => {
+    item.setAttribute("aria-selected", String(item === option));
+  });
+  closeEventTypeMenu();
+  eventTypeSelect.dispatchEvent(new Event("change", { bubbles: true }));
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape" || eventTypeMenu.hidden) return;
+  closeEventTypeMenu();
+  eventTypeTrigger.focus();
+});
+
+document.addEventListener("click", (event) => {
+  if (!eventTypeGroup.contains(event.target)) closeEventTypeMenu();
+});
+
+function formatDate(date) {
+  return [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0")
+  ].join("-");
+}
+
+function setStage(stage) {
+  calendarStage.hidden = stage !== "calendar";
+  timesStage.hidden = stage !== "times";
+  confirmationStage.hidden = stage !== "confirmation";
+  backToCalendarButton.hidden = stage !== "times";
+  backToTimesButton.hidden = stage !== "confirmation";
+  bookingCalendar.classList.toggle("is-availability-source", stage !== "confirmation");
+  calendarContainer.dataset.stage = stage;
+}
 
 function renderCalendarMonth() {
   const year = displayedMonth.getFullYear();
@@ -36,6 +103,7 @@ function renderCalendarMonth() {
   const firstWeekday = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
   monthLabel.textContent = displayedMonth.toLocaleDateString(undefined, {
     month: "long",
@@ -50,16 +118,14 @@ function renderCalendarMonth() {
       const cell = document.createElement("td");
       if (day > 0 && day <= daysInMonth) {
         const date = new Date(year, month, day);
-        const dateButton = document.createElement("button");
-        const dateString = [
-          year,
-          String(month + 1).padStart(2, "0"),
-          String(day).padStart(2, "0")
-        ].join("-");
+        const dateString = formatDate(date);
+        const slots = availabilityByDate.get(dateString) || [];
+        const isAvailable = slots.length > 0;
         const isToday =
           year === today.getFullYear() &&
           month === today.getMonth() &&
           day === today.getDate();
+        const dateButton = document.createElement("button");
 
         dateButton.type = "button";
         dateButton.className = "calendar-day";
@@ -70,14 +136,14 @@ function renderCalendarMonth() {
           month: "long",
           day: "numeric"
         }));
-        dateButton.disabled = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        if (isToday) dateButton.classList.add("is-today");
-        if (dateString === selectedDate) dateButton.classList.add("is-selected");
-        dateButton.addEventListener("click", () => selectBookingDate(dateString));
-
+        dateButton.disabled = !activeBookingUrl || !isAvailable || date < todayStart;
         if (isToday) {
+          dateButton.classList.add("is-today");
           dateButton.setAttribute("aria-current", "date");
         }
+        if (isAvailable) dateButton.classList.add("is-available");
+        if (dateString === selectedDate) dateButton.classList.add("is-selected");
+        dateButton.addEventListener("click", () => showAvailableTimes(dateString));
         cell.appendChild(dateButton);
       }
       week.appendChild(cell);
@@ -86,76 +152,159 @@ function renderCalendarMonth() {
   }
 
   calendarDays.replaceChildren(...weeks);
+  updateCalendarStatus();
 }
 
-function selectBookingDate(date) {
-  if (!selectedEventType) {
-    calendarInstructions.textContent = "Select an event before choosing a date.";
+function updateCalendarStatus() {
+  if (!activeBookingUrl) {
+    calendarStatus.hidden = true;
     return;
   }
 
-  selectedDate = date;
+  const monthPrefix = `${formatDate(displayedMonth).slice(0, 7)}-`;
+  const hasAvailableDates = [...availabilityByDate.entries()].some(
+    ([date, slots]) => date.startsWith(monthPrefix) && slots.length > 0
+  );
+
+  if (hasAvailableDates) {
+    calendarStatus.hidden = true;
+    return;
+  }
+
+  calendarStatus.textContent = availabilityFetched
+    ? "No available dates in this month."
+    : "Loading available dates…";
+  calendarStatus.hidden = false;
+}
+
+function loadAvailabilityForDisplayedMonth() {
+  if (!activeBookingUrl) return;
+
+  availabilityFetched = false;
+  const url = new URL(activeBookingUrl);
+  url.searchParams.set("date", formatDate(displayedMonth));
+  bookingCalendar.src = url.toString();
+  updateCalendarStatus();
+}
+
+function handleCalMessage(event) {
+  if (
+    event.origin !== "https://cal.com" ||
+    event.source !== bookingCalendar.contentWindow ||
+    !activeBookingUrl
+  ) return;
+
+  const message = event.data;
+  if (message?.originator !== "CAL" || message.type !== "slotsFetched") return;
+  if (!message.data?.slots || typeof message.data.slots !== "object") return;
+  const expectedSlug = new URL(activeBookingUrl).pathname.split("/").pop();
+  if (message.data.eventSlug !== expectedSlug) return;
+
+  for (const [date, slots] of Object.entries(message.data.slots)) {
+    if (Array.isArray(slots)) availabilityByDate.set(date, slots);
+  }
+
+  availabilityFetched = true;
   renderCalendarMonth();
+  if (selectedDate && !timesStage.hidden) renderTimeOptions();
+}
 
-  const eventUrl = selectedEventType === "photo-booth"
-    ? calendarUrls.photoBooth[photoBoothFormat]
-    : calendarUrls[selectedEventType];
-
-  if (!eventUrl) {
-    calendarInstructions.textContent = "Choose Digital or Printing before choosing a date.";
-    return;
-  }
-
-  const url = new URL(eventUrl);
-  url.searchParams.set("date", date);
-  showBookingCalendar(url.toString());
-  calendarInstructions.textContent = `Choose an available time for ${new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
+function showAvailableTimes(date) {
+  selectedDate = date;
+  timesDateLabel.textContent = new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
     weekday: "long",
     month: "long",
     day: "numeric",
     year: "numeric"
-  })}. Cal.com will show the booking details after you select a time.`;
+  });
+  renderTimeOptions();
+  setStage("times");
 }
 
-function showBookingCalendar(url) {
-  blankCalendar.hidden = true;
-  bookingCalendar.hidden = false;
-  bookingCalendar.src = url;
+function renderTimeOptions() {
+  const slots = availabilityByDate.get(selectedDate) || [];
+  timeOptions.replaceChildren();
+
+  if (!slots.length) {
+    timesStatus.textContent = "No available times for this date.";
+    timesStatus.hidden = false;
+    return;
+  }
+
+  timesStatus.hidden = true;
+  for (const slot of slots) {
+    if (typeof slot.start !== "string") continue;
+
+    const start = new Date(slot.start);
+    if (Number.isNaN(start.getTime())) continue;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "time-option";
+    button.textContent = start.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "2-digit"
+    });
+    button.addEventListener("click", () => showCalBookingDetails(slot.start));
+    timeOptions.appendChild(button);
+  }
+
+  if (!timeOptions.childElementCount) {
+    timesStatus.textContent = "Available times could not be loaded for this date.";
+    timesStatus.hidden = false;
+  }
 }
 
-function showBlankCalendar() {
-  bookingCalendar.removeAttribute("src");
-  bookingCalendar.hidden = true;
-  blankCalendar.hidden = false;
+function showCalBookingDetails(slotStart) {
+  const url = new URL(activeBookingUrl);
+  url.searchParams.set("date", selectedDate);
+  url.searchParams.set("slot", slotStart);
+  setStage("confirmation");
+  bookingCalendar.src = url.toString();
+}
+
+function showCalendarForEvent(url) {
+  activeBookingUrl = url;
+  availabilityByDate = new Map();
+  availabilityFetched = false;
+  selectedDate = "";
+  setStage("calendar");
+  renderCalendarMonth();
+  loadAvailabilityForDisplayedMonth();
 }
 
 eventTypeSelect.addEventListener("change", () => {
   const eventType = eventTypeSelect.value;
+  const selectedOption = eventTypeSelect.selectedOptions[0];
+  eventTypeValue.textContent = selectedOption?.textContent || "Select an event";
+  eventTypeMenu.querySelectorAll("[role='option']").forEach((option) => {
+    option.setAttribute("aria-selected", String(option.dataset.eventType === eventType));
+  });
   photoBoothFormat = "";
-  selectedEventType = eventType;
-  selectedDate = null;
-  renderCalendarMonth();
+  activeBookingUrl = "";
+  availabilityByDate = new Map();
+  availabilityFetched = false;
+  selectedDate = "";
   photoBoothOptions.hidden = eventType !== "photo-booth";
   eventTypeGroup.classList.toggle("has-photo-options", eventType === "photo-booth");
   changePhotoOptionButton.hidden = true;
   pricingText.hidden = eventType === "photo-booth";
+  setStage("calendar");
 
   if (eventType === "photo-booth") {
-    calendarInstructions.textContent = "Choose Digital or Printing, then select a date.";
-    showBlankCalendar();
+    bookingCalendar.removeAttribute("src");
+    renderCalendarMonth();
     return;
   }
 
   if (!eventType) {
+    bookingCalendar.removeAttribute("src");
     pricingText.textContent = "Select an event to view pricing.";
-    calendarInstructions.textContent = "Select an event to view its calendar.";
-    showBlankCalendar();
+    renderCalendarMonth();
     return;
   }
 
   pricingText.innerHTML = eventPricing[eventType];
-  calendarInstructions.textContent = "Select a date to view its available times.";
-  showBlankCalendar();
+  showCalendarForEvent(calendarUrls[eventType]);
 });
 
 photoBoothOptions.addEventListener("click", (event) => {
@@ -172,10 +321,7 @@ photoBoothOptions.addEventListener("click", (event) => {
   photoBoothOptions.hidden = true;
   eventTypeGroup.classList.remove("has-photo-options");
   changePhotoOptionButton.hidden = false;
-  selectedDate = null;
-  renderCalendarMonth();
-  calendarInstructions.textContent = "Select a date to view its available times.";
-  showBlankCalendar();
+  showCalendarForEvent(calendarUrls.photoBooth[photoBoothFormat]);
 });
 
 changePhotoOptionButton.addEventListener("click", () => {
@@ -187,12 +333,31 @@ changePhotoOptionButton.addEventListener("click", () => {
 
 document.getElementById("previous-month").addEventListener("click", () => {
   displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() - 1, 1);
+  selectedDate = "";
+  setStage("calendar");
   renderCalendarMonth();
+  loadAvailabilityForDisplayedMonth();
 });
 
 document.getElementById("next-month").addEventListener("click", () => {
   displayedMonth = new Date(displayedMonth.getFullYear(), displayedMonth.getMonth() + 1, 1);
+  selectedDate = "";
+  setStage("calendar");
+  renderCalendarMonth();
+  loadAvailabilityForDisplayedMonth();
+});
+
+backToCalendarButton.addEventListener("click", () => {
+  selectedDate = "";
+  setStage("calendar");
   renderCalendarMonth();
 });
 
+backToTimesButton.addEventListener("click", () => {
+  setStage("times");
+  renderTimeOptions();
+});
+
+window.addEventListener("message", handleCalMessage);
+setStage("calendar");
 renderCalendarMonth();
