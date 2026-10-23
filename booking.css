@@ -2,13 +2,12 @@
    Booking Page Styles (booking.css)
    ========================================== */
 
-/* Keep event details and date selection separate and easy to follow. */
+/* Keep event details on the left and the calendar on the right. */
 .booking-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: stretch;
+  gap: 2rem;
   width: 100%;
 }
 
@@ -296,9 +295,9 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 868px) {
-  .event-selection-content {
+  .booking-container {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .cal-embed-placeholder {
