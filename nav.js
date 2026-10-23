@@ -1,4 +1,4 @@
-const globalStylesheet = document.createElement("link");
+const globalStylesheet = document.createElement("link"); 
 globalStylesheet.rel = "stylesheet";
 globalStylesheet.href = new URL("global.css", document.currentScript.src).href;
 document.head.appendChild(globalStylesheet);
