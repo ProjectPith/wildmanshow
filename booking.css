@@ -61,6 +61,7 @@
    - Secondary accent text (#FFFFFF)
 */
 .booking-form input,
+.booking-form select,
 .booking-form textarea {
   width: 100%;
   background-color: #000000;
@@ -79,6 +80,11 @@
   min-height: 120px;
 }
 
+.booking-form select {
+  appearance: none;
+  cursor: pointer;
+}
+
 .booking-form input::placeholder,
 .booking-form textarea::placeholder {
   color: var(--color-secondary-accent);
@@ -86,9 +92,92 @@
 
 /* Active Focus State for Text Boxes */
 .booking-form input:focus,
+.booking-form select:focus,
 .booking-form textarea:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 8px rgba(179, 34, 34, 0.4);
+}
+
+.event-type-group {
+  position: relative;
+}
+
+.event-type-group.has-photo-options {
+  z-index: 100;
+}
+
+.event-pricing {
+  color: var(--color-secondary-accent);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  position: relative;
+  z-index: 0;
+}
+
+.event-pricing strong {
+  color: var(--text-main);
+}
+
+.photo-booth-options {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: min(100%, 250px);
+  padding: 0.75rem;
+  background: #2C2C2C;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  color: var(--text-main);
+  font-size: 0.85rem;
+}
+
+.photo-booth-options[hidden] {
+  display: none;
+}
+
+.photo-booth-options button {
+  width: 100%;
+  padding: 0.5rem;
+  background: var(--color-secondary);
+  border: 1px solid rgba(208, 208, 208, 0.25);
+  border-radius: 4px;
+  color: var(--text-main);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.photo-booth-options button:hover,
+.photo-booth-options button:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.change-photo-option {
+  display: block;
+  margin-top: 0.5rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--color-secondary-accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+.change-photo-option:hover,
+.change-photo-option:focus-visible {
+  color: var(--text-main);
+}
+
+.change-photo-option[hidden] {
+  display: none;
 }
 
 /* Right Calendar Box Container */
@@ -98,10 +187,90 @@
   background-color: #000000;
   border: 1px dashed rgba(208, 208, 208, 0.3);
   border-radius: 6px;
+  color: #FFFFFF;
+  overflow: hidden;
+}
+
+.blank-calendar {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.calendar-month {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.calendar-month h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.calendar-month button {
+  width: 2.25rem;
+  height: 2.25rem;
+  background: transparent;
+  border: 1px solid rgba(208, 208, 208, 0.3);
+  border-radius: 6px;
+  color: var(--text-main);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.calendar-month button:hover,
+.calendar-month button:focus-visible {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+
+.month-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: center;
+}
+
+.month-grid th {
+  padding: 0.5rem 0.1rem;
+  color: var(--color-secondary-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.month-grid td {
+  height: 2.75rem;
+  border-top: 1px solid rgba(208, 208, 208, 0.12);
+}
+
+.month-grid td.is-today {
+  color: var(--text-main);
+  font-weight: 700;
+  box-shadow: inset 0 -2px var(--color-accent);
+}
+
+.blank-calendar > p {
+  margin: 1.25rem 0 0;
+  color: var(--color-secondary-accent);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+#booking-calendar {
+  display: block;
+  width: 100%;
+  min-height: 650px;
+  border: 0;
+  background: #000000;
+}
+
+#booking-calendar[hidden] {
+  display: none;
 }
 
 /* Mobile Responsiveness */
@@ -130,5 +299,9 @@
 
   .cal-embed-placeholder {
     min-height: 380px;
+  }
+
+  #booking-calendar {
+    min-height: 620px;
   }
 }

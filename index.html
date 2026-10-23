@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Event</title>
+  <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="booking.css"> 
 </head>
 <body>
@@ -24,9 +25,27 @@
             <input type="text" id="client-name" placeholder="John Doe" required>
           </div>
 
-          <div class="form-group">
+          <div class="form-group event-type-group">
             <label for="event-type">Event Type</label>
-            <input type="text" id="event-type" placeholder="Wedding, Private Party, Corporate..." required>
+            <select id="event-type" name="event-type" required>
+              <option value="" selected disabled>Select an event</option>
+              <option value="wedding">Wedding</option>
+              <option value="party">Party</option>
+              <option value="karaoke">Karaoke</option>
+              <option value="photo-booth">Photo Booth</option>
+            </select>
+            <div class="photo-booth-options" id="photo-booth-options" role="group" aria-label="Photo Booth options" hidden>
+              <span>Choose a Photo Booth package</span>
+              <button type="button" data-photo-option="digital">Digital — $450</button>
+              <button type="button" data-photo-option="printing">Printing — $550</button>
+            </div>
+          </div>
+
+          <div class="event-pricing" id="event-pricing" aria-live="polite">
+            <span id="event-pricing-text">Select an event to view pricing.</span>
+            <button type="button" class="change-photo-option" id="change-photo-option" hidden>
+              Change Photo Booth option
+            </button>
           </div>
 
           <div class="form-group">
@@ -45,14 +64,37 @@
       <!-- Right Side: Calendar Box for Cal.com -->
       <section class="booking-box calendar-box">
         <h2>Select Date & Time</h2>
-        <div class="cal-embed-placeholder">
-          <p>Cal.com Embed Container</p>
+        <div class="cal-embed-placeholder" id="calendar-container">
+          <div class="blank-calendar" id="blank-calendar">
+            <div class="calendar-month">
+              <button type="button" id="previous-month" aria-label="Previous month">&lsaquo;</button>
+              <h3 id="calendar-month-label" aria-live="polite"></h3>
+              <button type="button" id="next-month" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <table class="month-grid" aria-label="Monthly calendar">
+              <thead>
+                <tr>
+                  <th scope="col">Sun</th>
+                  <th scope="col">Mon</th>
+                  <th scope="col">Tue</th>
+                  <th scope="col">Wed</th>
+                  <th scope="col">Thu</th>
+                  <th scope="col">Fri</th>
+                  <th scope="col">Sat</th>
+                </tr>
+              </thead>
+              <tbody id="calendar-days"></tbody>
+            </table>
+            <p>Select an event to view its booking calendar.</p>
+          </div>
+          <iframe id="booking-calendar" title="Event booking calendar" hidden></iframe>
         </div>
       </section>
 
     </div>
   </main>
 
-  <script src="/nav.js"></script>
+  <script src="nav.js"></script>
+  <script src="booking.js"></script>
 </body>
 </html>
