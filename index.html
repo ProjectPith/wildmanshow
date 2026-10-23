@@ -14,9 +14,9 @@
 
   <main>
     <div class="booking-container">
-      <section class="booking-box event-selection-box">
-        <h2>1. Choose Your Event</h2>
-        <div class="event-selection-content">
+      <section class="booking-box info-box">
+        <h2>Event Details</h2>
+        <form class="booking-form">
           <div class="form-group event-type-group">
             <label for="event-type">Event Type</label>
             <select id="event-type" name="event-type" required>
@@ -39,13 +39,28 @@
               Change Photo Booth option
             </button>
           </div>
-        </div>
+
+          <div class="form-group">
+            <label for="client-name">Your Name</label>
+            <input type="text" id="client-name" name="client-name" autocomplete="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="music-preference">Music Style / Genre</label>
+            <input type="text" id="music-preference" name="music-preference">
+          </div>
+
+          <div class="form-group">
+            <label for="setup-type">Setup Requirements</label>
+            <textarea id="setup-type" name="setup-type" rows="4"></textarea>
+          </div>
+        </form>
       </section>
 
       <section class="booking-box calendar-box">
-        <h2>2. Choose a Date and Time</h2>
+        <h2>Select Date &amp; Time</h2>
         <p class="booking-instructions">
-          Choose a date, then an available time. Cal.com will ask for your booking information on the confirmation step.
+          Choose an event, select a date, then choose an available time. Cal.com will show the booking details for your selected time.
         </p>
         <div class="cal-embed-placeholder" id="calendar-container">
           <div class="blank-calendar" id="blank-calendar">
@@ -68,7 +83,7 @@
               </thead>
               <tbody id="calendar-days"></tbody>
             </table>
-            <p>Select an event above to view its calendar.</p>
+            <p id="calendar-instructions">Select an event to view its calendar.</p>
           </div>
           <iframe id="booking-calendar" title="Event booking calendar" hidden></iframe>
         </div>
