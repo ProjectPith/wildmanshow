@@ -14,17 +14,9 @@
 
   <main>
     <div class="booking-container">
-      
-      <!-- Left Side: Event Details Info Box -->
-      <section class="booking-box info-box">
-        <h2>Event Details</h2>
-        <form class="booking-form">
-          
-          <div class="form-group">
-            <label for="client-name">Your Name</label>
-            <input type="text" id="client-name" placeholder="John Doe" required>
-          </div>
-
+      <section class="booking-box event-selection-box">
+        <h2>1. Choose Your Event</h2>
+        <div class="event-selection-content">
           <div class="form-group event-type-group">
             <label for="event-type">Event Type</label>
             <select id="event-type" name="event-type" required>
@@ -47,23 +39,14 @@
               Change Photo Booth option
             </button>
           </div>
-
-          <div class="form-group">
-            <label for="music-preference">Music Style / Genre</label>
-            <input type="text" id="music-preference" placeholder="Rock, Country, Top 40...">
-          </div>
-
-          <div class="form-group">
-            <label for="setup-type">Setup Requirements</label>
-            <textarea id="setup-type" rows="4" placeholder="Full PA system, acoustic stage, lighting requirements..."></textarea>
-          </div>
-
-        </form>
+        </div>
       </section>
 
-      <!-- Right Side: Calendar Box for Cal.com -->
       <section class="booking-box calendar-box">
-        <h2>Select Date & Time</h2>
+        <h2>2. Choose a Date and Time</h2>
+        <p class="booking-instructions">
+          Choose a date, then an available time. Cal.com will ask for your booking information on the confirmation step.
+        </p>
         <div class="cal-embed-placeholder" id="calendar-container">
           <div class="blank-calendar" id="blank-calendar">
             <div class="calendar-month">
@@ -85,7 +68,7 @@
               </thead>
               <tbody id="calendar-days"></tbody>
             </table>
-            <p>Select an event to view its booking calendar.</p>
+            <p>Select an event above to view its calendar.</p>
           </div>
           <iframe id="booking-calendar" title="Event booking calendar" hidden></iframe>
         </div>

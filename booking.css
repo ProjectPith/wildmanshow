@@ -2,13 +2,14 @@
    Booking Page Styles (booking.css)
    ========================================== */
 
-/* Main 2-Column Grid Layout */
-.booking-container { 
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+/* Keep event selection and booking as separate, full-width steps. */
+.booking-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
-  align-items: stretch;
 }
 
 /* 
@@ -35,12 +36,11 @@
   border-bottom: 1px solid rgba(208, 208, 208, 0.2);
 }
 
-/* Form Layout inside Left Box */
-.booking-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  flex-grow: 1;
+.event-selection-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1.5rem;
 }
 
 .form-group {
@@ -55,45 +55,24 @@
   font-weight: 600;
 }
 
-/* 
-   Text Boxes / Inputs
-   - Pure black background
-   - Secondary accent text (#FFFFFF)
-*/
-.booking-form input,
-.booking-form select,
-.booking-form textarea {
+.event-selection-box select {
   width: 100%;
   background-color: #000000;
   color: #FFFFFF;
   border: 1px solid rgba(208, 208, 208, 0.25);
   border-radius: 6px;
   padding: 0.85rem 1rem;
-  font-family: inherit;
-  font-size: 1rem;
+  font: inherit;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.booking-form textarea {
-  resize: vertical;
-  min-height: 120px;
-}
-
-.booking-form select {
+.event-selection-box select {
   appearance: none;
   cursor: pointer;
 }
 
-.booking-form input::placeholder,
-.booking-form textarea::placeholder {
-  color: var(--color-secondary-accent);
-}
-
-/* Active Focus State for Text Boxes */
-.booking-form input:focus,
-.booking-form select:focus,
-.booking-form textarea:focus {
+.event-selection-box select:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 8px rgba(179, 34, 34, 0.4);
 }
@@ -110,8 +89,6 @@
   color: var(--color-secondary-accent);
   font-size: 0.95rem;
   line-height: 1.7;
-  position: relative;
-  z-index: 0;
 }
 
 .event-pricing strong {
@@ -180,10 +157,14 @@
   display: none;
 }
 
+.booking-instructions {
+  margin: -0.5rem 0 1.25rem;
+  color: var(--color-secondary-accent);
+}
+
 /* Right Calendar Box Container */
 .cal-embed-placeholder {
-  flex-grow: 1;
-  min-height: 450px;
+  min-height: 600px;
   background-color: #000000;
   border: 1px dashed rgba(208, 208, 208, 0.3);
   border-radius: 6px;
@@ -264,7 +245,7 @@
 #booking-calendar {
   display: block;
   width: 100%;
-  min-height: 650px;
+  min-height: 760px;
   border: 0;
   background: #000000;
 }
@@ -275,26 +256,9 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 868px) {
-  .booking-container {
-    background-color: var(--color-secondary);
-    border: 2px solid var(--color-accent);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-    gap: 0;
+  .event-selection-content {
     grid-template-columns: 1fr;
-    overflow: hidden;
-  }
-
-  .booking-box {
-    background-color: transparent;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 1.5rem;
-  }
-
-  .booking-box + .booking-box {
-    border-top: 1px solid rgba(208, 208, 208, 0.2);
+    gap: 1rem;
   }
 
   .cal-embed-placeholder {
@@ -302,6 +266,6 @@
   }
 
   #booking-calendar {
-    min-height: 620px;
+    min-height: 720px;
   }
 }
