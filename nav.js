@@ -21,16 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <nav id="site-nav" class="site-nav">
           <a href="/index.html" class="nav-link">BOOKING</a>
         </nav>
-        <div class="nav-actions">
-          <button class="nav-action" type="button" aria-label="Account">
-            <span class="action-label">ACCOUNT</span>
-            <span class="action-short" aria-hidden="true">&#128100;</span>
-          </button>
-          <button class="nav-action" type="button" aria-label="Cart">
-            <span class="action-label">CART</span>
-            <span class="action-short" aria-hidden="true">&#128722;</span>
-          </button>
-        </div>
       </div>
     </header>
   `;
