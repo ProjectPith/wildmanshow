@@ -5,7 +5,7 @@ document.head.appendChild(globalStylesheet);
 
 document.addEventListener("DOMContentLoaded", () => {
   const navContainer = document.getElementById("nav-insert");
-
+ 
   if (!navContainer) return;
 
   const navbarHTML = `
